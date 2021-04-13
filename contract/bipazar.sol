@@ -99,4 +99,36 @@ contract bipazar {
 
         ProductMap[_productID] = newProduct;
     }
-}
+
+    
+    function showProduct(string memory _productID)
+        public
+        view
+        returns (Product memory)
+    {
+        return ProductMap[_productID];
+    }
+    
+    
+    //delete a product
+     function deletedProduct(string memory _productID)
+        public
+        checkAuth("PRODUCER")
+    {
+        DeletedProductList.push(ProductMap[_productID]);
+
+            for (uint128 i = 0; i < ProductList.length; i++) {
+                if (
+                    keccak256(abi.encode(ProductList[i].productID)) ==
+                    keccak256(abi.encode(ProductMap[_productID].productID))
+                ) {
+                    delete ProductList[i];
+                    break;
+                }
+            }
+        
+        delete ProductMap[_productID];
+    
+    }
+  } 
+  
