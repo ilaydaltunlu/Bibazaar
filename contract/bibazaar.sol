@@ -99,6 +99,7 @@ contract bipazar {
 
         ProductMap[_productID] = newProduct;
     }
+<<<<<<< HEAD:contract/bipazar.sol
 
     
     function showProduct(string memory _productID)
@@ -132,3 +133,6 @@ contract bipazar {
     }
   } 
   
+=======
+}
+>>>>>>> 9084d0d0e170da15c2007234c911bed0d5fe297d:contract/bibazaar.sol
