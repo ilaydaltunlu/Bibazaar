@@ -130,5 +130,88 @@ contract bipazar {
         delete ProductMap[_productID];
     
     }
+     
+
+     //buy product function
+    function buyProduct(string memory _productID)
+        public
+        checkAuth("BUYER")
+    {
+        if (SoldProductList.length == 0) {
+            SoldProductList.push(ProductMap[_productID]);
+            for (uint256 j = 0; j < SoldProductList.length; j++) {
+                if (
+                    keccak256(
+                        abi.encodePacked(SoldProductList[j].productID)
+                    ) ==
+                    keccak256(
+                        abi.encodePacked(ProductMap[_productID].productID)
+                    )
+                ) {
+                    delete ProductList[j];
+                    delete ProductMap[_productID];
+                    break;
+                }
+            }
+        } else {
+            bool check = false;
+            for (uint256 i = 0; i < SoldProductList.length; i++) {
+                if (
+                    keccak256(
+                        abi.encodePacked(SoldProductList[i].productID)
+                    ) == keccak256(abi.encodePacked(""))
+                ) {
+                    for (uint256 j = 0; j < ProductList.length; j++) {
+                        if (
+                            keccak256(
+                                abi.encodePacked(ProductList[j].productID)
+                            ) ==
+                            keccak256(
+                                abi.encodePacked(
+                                    ProductMap[_productID].productID
+                                )
+                            )
+                        ) {
+                            SoldProductList[i] = ProductList[j];
+                            delete ProductList[j];
+                            delete ProductMap[_productID];
+                            check = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!check) {
+                SoldProductList.push(ProductMap[_productID]);
+                for (uint256 j = 0; j < ProductList.length; j++) {
+                    if (
+                        keccak256(
+                            abi.encodePacked(ProductList[j].productID)
+                        ) ==
+                        keccak256(
+                            abi.encodePacked(
+                                ProductMap[_productID].productID
+                            )
+                        )
+                    ) {
+                        delete ProductList[j];
+                        delete ProductMap[_productID];
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    function showProducts() public view returns (Product[] memory) {
+        return ProductList;
+    }
+    
+        function showDeletedProducts()
+        public
+        view
+        returns (Product[] memory)
+    {
+        return DeletedProductList;
+    }
   } 
   
