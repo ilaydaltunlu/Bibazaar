@@ -47,7 +47,7 @@ contract bipazar {
         UserAuth[_userAddress] = _role;
     }
 
-    // Get User's Role
+    // Get User Role
     function getUserAuth(address _userAddress)
         public
         view
